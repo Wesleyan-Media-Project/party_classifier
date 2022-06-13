@@ -28,8 +28,19 @@ df118['prob_other'] = pp[:,1]
 df118['prob_rep'] = pp[:,2]
 df118['predicted_party_all'] = log_clf.classes_[np.argmax(pp, axis = 1)]
 
+# Create a variable where all party classifications of a pd-id
+# are assigned by majority vote
+dft = df118[['pd_id', 'predicted_party_all']]
+maj_vote = dft.groupby(['pd_id'])['predicted_party_all'].agg(pd.Series.mode)
+maj_vote = pd.DataFrame(maj_vote)
+maj_vote = maj_vote.reset_index()
+# In case of ties, make it OTHER
+maj_vote['predicted_party_all'][[f is not str for f in maj_vote['predicted_party_all'].apply(type)]] = 'OTHER'
+maj_vote.columns = ['pd_id', 'predicted_party_all_majvote']
+df118 = df118.merge(maj_vote, how = 'left', on = 'pd_id')
+
 # Keep only the relevant variables
 df118 = df118[['ad_id', 'prob_dem', 'prob_other', 'prob_rep', 'predicted_party_all', 'predicted_party_all_majvote']]
 
 # Save
-df118.to_csv("data/facebook/party_clf_Facebook_118m_results_all_fields_split_by_party_uniform_pageid.csv", index = False)
+df118.to_csv("data/facebook/party_all_fb_118m.csv", index = False)
