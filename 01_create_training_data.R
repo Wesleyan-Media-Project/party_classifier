@@ -1,3 +1,7 @@
+# This file creates a training dataset
+# Notably, we only use ads with coded party_all 
+# if all pd_ids by the respective page_id are the same party
+
 library(data.table)
 library(dplyr)
 
