@@ -22,7 +22,6 @@ df <- left_join(df, ent, by = "pd_id")
 df$party_all[is.na(df$party_all)] <- "NOTCODED"
 test <- aggregate(df$party_all, by = list(df$page_id), table)
 test$usable_party_all <- unlist(lapply(test$x, length)) == 1
-#test2 <- aggregate(df$pd_id, list(df$page_id, df$party_all), unique)
 test <- test %>% select(-x)
 names(test)[1] <- 'page_id'
 df <- left_join(df, test, by = 'page_id')
