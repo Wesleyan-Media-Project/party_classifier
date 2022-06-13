@@ -11,7 +11,11 @@ import numpy as np
 from joblib import dump, load
 
 # 1.18m dataset
-df118 = pd.read_csv("data/facebook/118m_with_page_id_based_training_data.csv", encoding='UTF-8', keep_default_na = False)
+df118 = pd.read_csv("data/facebook/118m_with_page_id_based_training_data.csv", encoding='UTF-8', keep_default_na = False, dtype = 'str')
+# temporary fix for missing ids ---
+missing_pdids = 'pd-' + df118['page_id'][df118['pd_id'] == ''] + "-1"
+df118['pd_id'][df118['pd_id'] == ''] = missing_pdids
+# ---
 df118['combined'] = df118['disclaimer'] + df118['page_name'] + df118['ad_creative_body'] + df118['ad_creative_link_caption'] + df118['ad_creative_link_description'] + df118['ad_creative_link_title'] + df118['ocr'] + df118['asr']
 
 # Load model
@@ -25,7 +29,7 @@ df118['prob_rep'] = pp[:,2]
 df118['predicted_party_all'] = log_clf.classes_[np.argmax(pp, axis = 1)]
 
 # Keep only the relevant variables
-df118 = df118[['ad_id', 'prob_dem', 'prob_other', 'prob_rep', 'predicted_party_all']]
+df118 = df118[['ad_id', 'prob_dem', 'prob_other', 'prob_rep', 'predicted_party_all', 'predicted_party_all_majvote']]
 
 # Save
 df118.to_csv("data/facebook/party_clf_Facebook_118m_results_all_fields_split_by_party_uniform_pageid.csv", index = False)
