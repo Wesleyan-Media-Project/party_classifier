@@ -16,7 +16,7 @@ from joblib import dump, load
 import random
 
 # Load data, restrict to only 1.18m
-d = pd.read_csv("../data/facebook/118m_with_page_id_based_training_data.csv", encoding='UTF-8', keep_default_na = False)
+d = pd.read_csv("data/facebook/118m_with_page_id_based_training_data.csv", encoding='UTF-8', keep_default_na = False)
 
 # All fields
 cols = ['disclaimer', 'page_name', 'ad_creative_body', 'ad_creative_link_caption', 'ad_creative_link_description', 'ad_creative_link_title', 'ocr', 'asr']
