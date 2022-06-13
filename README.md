@@ -25,6 +25,11 @@ weighted avg       0.84      0.85      0.84     25532
 ### Data
 In addition to the files being tracked, the following files are required (not uploaded because too large)
 
-datasets/facebook/fb_2020_adid_06092022.csv (Delta Lab/Data/facebook_2020/fb_2020_adid_06092022.csv) \
-datasets/facebook/fb_2020_adid_06092022.csv (Delta Lab/Data/entities_fb_2020/wmp_fb_entities_v051822.csv) \
-datasets/facebook/118m_all_ads.csv (tbd)
+`datasets/facebook/fb_2020_adid_06092022.csv` (`Delta Lab/Data/facebook_2020/fb_2020_adid_06092022.csv`) \
+`datasets/facebook/fb_2020_adid_06092022.csv` (`Delta Lab/Data/entities_fb_2020/wmp_fb_entities_v051822.csv`) \
+`datasets/facebook/118m_all_ads.csv` (tbd)
+
+## Results
+The 03_ files apply the trained model to the 1.18m dataset as well as the Google dataset. The results from that are uploaded to `Delta Lab/Data/facebook_2020_party_all/` and `Delta Lab/Data/google_2020_party_all/`
+
+
