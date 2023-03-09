@@ -29,7 +29,7 @@ df$party_all_usable <- df$party_all
 df$party_all_usable[df$usable_party_all == F] <- NA
 df$party_all_usable[df$party_all_usable == "NOTCODED"] <- NA
 
-# Create the train-test split
+# Create the train-test split 
 page_id_with_usable_party_all <- unique(df$page_id[is.na(df$party_all_usable) == F])
 set.seed(123)
 split <- sample(c('train', 'test'), length(page_id_with_usable_party_all), replace = T, prob = c(0.7, 0.3))
