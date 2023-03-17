@@ -47,3 +47,4 @@ Performance on held-out test set:
 
 ## To-do
 Update Google.
+Update requirements file for Python to include package versions.
