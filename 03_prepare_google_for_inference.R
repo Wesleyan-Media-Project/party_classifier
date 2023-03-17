@@ -1,4 +1,4 @@
-# Concatenate all fields for Google into one
+# Concatenate all fields for Google into one 
 # Field order is somewhat random since the use is a bag of words model where it doesn't matter
 
 library(dplyr)
