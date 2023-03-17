@@ -1,0 +1,3 @@
+data.table_1.14.8
+dplyr_1.1.0
+tidyr_1.3.0
