@@ -1,5 +1,5 @@
 # Ad id-level Party Classifier
-Multinomial party classifier, classifying ads into DEM/REP/OTHER. The difference to the other party classifier is that in this one, the training data consists of **individual** ads whose pd_id has `party_all` coded in the WMP entity file. By contrast, the other party classifier concatenates all ads of a pd_id into one. In practice, when discrete party predictions are needed, the other party classifier should be preferred, because it assumes that all ads belonging to a pd_id will be the same party. The main purpose of this classifier is to get predicted probabilities for individual ads, which can then be used to express the degree to which an ad belongs to either party.
+Multinomial party classifier, classifying ads into DEM/REP/OTHER. The difference to the other party classifier is that in this one, the training data consists of **individual** ads whose pd_id has `party_all` coded in the WMP entity file. By contrast, the [other](https://github.com/Wesleyan-Media-Project/party_classifier_pdid) party classifier concatenates all ads of a pd_id into one. In practice, when discrete party predictions are needed, the other party classifier should be preferred, because it assumes that all ads belonging to a pd_id will be the same party. The main purpose of this classifier is to get predicted probabilities for individual ads, which can then be used to express the degree to which an ad belongs to either party.
 
 ## Usage
 The scripts are numbered in the order in which they should be run. Scripts that directly depend on one another are ordered sequentially. Scripts with the same number are alternatives, usually they are the same scripts on different data, or with minor variations. The outputs of each script are saved, so it is possible to, for example, only run the inference script, since the model files are already present.
@@ -8,7 +8,7 @@ There are separate folders for Facebook and Google. Within Facebook, the code ne
 
 For an example pipeline, training on 2020 Facebook, and then doing inference on 2020 Facebook, see `pipeline.sh`. This should take about 20 minutes to run on a laptop.
 
-Some scripts require datasets from the (datasets)[https://github.com/Wesleyan-Media-Project/datasets] repo (which contains datasets that aren't created in any of the repos and intended to be used in more than one repo) and the (fb_2020)[https://github.com/Wesleyan-Media-Project/fb_2020] repo (containing 2020 ad text and metadata). Those repos are assumed to be cloned into the same top-level folder as the entity_linking repo.
+Some scripts require datasets from the [datasets](https://github.com/Wesleyan-Media-Project/datasets) repo (which contains datasets that aren't created in any of the repos and intended to be used in more than one repo) and the [fb_2020](https://github.com/Wesleyan-Media-Project/fb_2020) repo (containing 2020 ad text and metadata). Those repos are assumed to be cloned into the same top-level folder as the entity_linking repo.
 
 
 ## Requirements
@@ -20,7 +20,7 @@ The scripts use both R (4.2.2) and Python (3.9.16). The packages we used are des
 The classifier outputs class labels (DEM/REP/OTHER), as well as class labels aggregated to the pd_id-level (advertiser_id for Google) via majority vote (OTHER in case of a tie), as well as class probabilities. However, for the latter, the other party classifier repo should preferably be used.
 
 ### Training
-Training is done on the portion of the 1.18m dataset for which party_all is known, based on merging with the most recent WMP entities file (v051822). Only pages for which all of their pd_ids are associated with the same party_all are used. For training, the data is split by assigning 70% of the page_ids to training, and 30% of the page_ids to test. Ergo, all ads associated with a specific page_id can only be in either training or test.
+Training is done on the portion of the 1.4m dataset for which party_all is known, based on merging with the most recent WMP entities file (v090622). Only pages for which all of their pd_ids are associated with the same party_all are used. For training, the data is split by assigning 70% of the page_ids to training, and 30% of the page_ids to test. Ergo, all ads associated with a specific page_id can only be in either training or test.
 
 The reason we split on page_id and not pd_id is because because different pd ids of the same page are always going to be similar. If we use pd id we could end up with some pd ids of the same page id ending up in the training set, and some in the test set, which would be unfair.
 
