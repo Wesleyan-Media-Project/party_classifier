@@ -10,12 +10,18 @@ import pandas as pd
 import numpy as np
 from joblib import dump, load
 
+# Inputs
+path_ads = "data/google/all_fields_concatenated.csv"
+path_model = 'models/party_clf.joblib'
+# Outputs
+path_predictions = "data/google/party_all_google.csv"
+
 # 1.18m dataset
-dfggl = pd.read_csv("data/google/all_fields_concatenated.csv")
+dfggl = pd.read_csv(path_ads)
 dfggl = dfggl.replace(np.nan, '', regex=True)
 
 # Load model
-log_clf = load('models/party_clf_all_fields_split_by_party_uniform_page_id.joblib')
+log_clf = load(path_model)
 
 # Predicted probabilities
 pp = log_clf.predict_proba(dfggl['text'])
@@ -41,4 +47,4 @@ dfggl = dfggl.merge(maj_vote, how = 'left', on = 'advertiser_id')
 dfggl = dfggl[['ad_id', 'prob_dem', 'prob_other', 'prob_rep', 'predicted_party_all', 'predicted_party_all_majvote']]
 
 # Save
-dfggl.to_csv("data/google/party_all_google.csv", index = False)
+dfggl.to_csv(path_predictions, index = False)
