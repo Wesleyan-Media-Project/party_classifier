@@ -25,6 +25,7 @@ cols = ['disclaimer', 'page_name', 'ad_creative_body', 'ad_creative_link_caption
 # Combine and clean up
 df['combined'] = df[cols].apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
 df['combined'] = df['combined'].str.strip()
+df['combined'] = df['combined'].str.replace(' +', ' ', regex = True) # Remove double (and triple etc.) whitespaces inside
 df = df[['ad_id', 'combined']]
 # Deduplicate by text to save time during inference
 df = df.groupby(['combined'])['ad_id'].apply(list)
