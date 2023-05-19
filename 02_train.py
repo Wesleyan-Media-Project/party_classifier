@@ -40,7 +40,7 @@ test = d[d['split'] == 'test']
 # Define model
 clf = Pipeline([('vect', CountVectorizer()),
                 ('tfidf', TfidfTransformer()),
-                ('logreg', LogisticRegression(penalty = 'l2', C = 0.25, random_state = 123),)
+                ('logreg', LogisticRegression(penalty = 'l2', C = 0.02, random_state = 123),)
 ])
 
 # Train
@@ -52,13 +52,13 @@ print(metrics.classification_report(test['party_all_usable'], predicted))
 
 #               precision    recall  f1-score   support
 # 
-#          DEM       0.83      0.90      0.87     15366
-#        OTHER       0.48      0.02      0.04       698
-#          REP       0.81      0.76      0.78      9270
+#          DEM       0.78      0.95      0.86     15366
+#        OTHER       0.00      0.00      0.00       698
+#          REP       0.87      0.62      0.73      9270
 # 
-#     accuracy                           0.83     25334
-#    macro avg       0.71      0.56      0.56     25334
-# weighted avg       0.82      0.83      0.81     25334
+#     accuracy                           0.80     25334
+#    macro avg       0.55      0.52      0.53     25334
+# weighted avg       0.79      0.80      0.79     25334
 
 # Save model to disk
 dump(clf, path_model, compress = 3)
