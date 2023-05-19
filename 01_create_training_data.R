@@ -9,7 +9,7 @@ library(dplyr)
 path_fb_140m_vars <- "../fb_2020/fb_2020_140m_adid_var1.csv.gz"
 path_wmp_ent <- "../datasets/wmp_entity_files/Facebook/2020/wmp_fb_entities_v090622.csv"
 # Outputs
-path_training_data <- "data/facebook/118m_with_page_id_based_training_data.csv.gz"
+path_training_data <- "data/facebook/140m_with_page_id_based_training_data.csv.gz"
 
 # Ad id, pd_id, page_id
 df <- fread(path_fb_140m_vars, encoding = "UTF-8")

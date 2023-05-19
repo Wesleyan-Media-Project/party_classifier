@@ -4,8 +4,7 @@
 
 import sklearn.model_selection as ms
 from sklearn.pipeline import Pipeline
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.calibration import CalibratedClassifierCV
+from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
@@ -15,7 +14,7 @@ from joblib import dump, load
 import random
 
 # Input
-path_train_test = "data/facebook/118m_with_page_id_based_training_data.csv.gz"
+path_train_test = "data/facebook/140m_with_page_id_based_training_data.csv.gz"
 path_train_test_text = "../fb_2020/fb_2020_140m_adid_text_clean.csv.gz"
 # Output
 path_model = 'models/party_clf.joblib'
@@ -39,27 +38,39 @@ train = d[d['split'] == 'train']
 test = d[d['split'] == 'test']
 
 # Define model
-rf_clf = Pipeline([('vect', CountVectorizer()),
-                    ('tfidf', TfidfTransformer()),
-                    ('cal', CalibratedClassifierCV(RandomForestClassifier(random_state = 123), cv=2, method="sigmoid"),)
+clf = Pipeline([('vect', CountVectorizer()),
+                ('tfidf', TfidfTransformer()),
+                ('logreg', LogisticRegression(penalty = 'l2', C = 0.25, random_state = 123),)
 ])
 
 # Train
-rf_clf.fit(train['combined'], train['party_all_usable'])
+clf.fit(train['combined'], train['party_all_usable'])
 
 # Assess performance performance
-predicted = rf_clf.predict(test['combined'])
+predicted = clf.predict(test['combined'])
 print(metrics.classification_report(test['party_all_usable'], predicted))
 
 #               precision    recall  f1-score   support
 # 
-#          DEM       0.86      0.91      0.89     15366
-#        OTHER       0.84      0.05      0.10       698
-#          REP       0.82      0.81      0.82      9270
+#          DEM       0.83      0.90      0.87     15366
+#        OTHER       0.48      0.02      0.04       698
+#          REP       0.81      0.76      0.78      9270
 # 
-#     accuracy                           0.85     25334
-#    macro avg       0.84      0.59      0.60     25334
-# weighted avg       0.85      0.85      0.84     25334
+#     accuracy                           0.83     25334
+#    macro avg       0.71      0.56      0.56     25334
+# weighted avg       0.82      0.83      0.81     25334
 
 # Save model to disk
-dump(rf_clf, path_model, compress = 3)
+dump(clf, path_model, compress = 3)
+
+#----
+# import seaborn as sns
+# 
+# pp = log_clf.predict_proba(test['combined'])
+# 
+# plot = sns.kdeplot(data=pp[:,0])
+# fig = plot.get_figure()
+# fig.savefig("out2.png") 
+# 
+# import scipy
+# scipy.stats.kurtosis(pp[:,0])

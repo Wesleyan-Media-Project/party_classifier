@@ -1,8 +1,6 @@
 import sklearn.model_selection as ms
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.calibration import CalibratedClassifierCV
 from sklearn import metrics
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
@@ -34,14 +32,14 @@ df = df.to_frame().reset_index()
 df = df[df['combined'] != ""]
 
 # Load model
-log_clf = load(path_model)
+clf = load(path_model)
 
 # Predicted probabilities
-pp = log_clf.predict_proba(df['combined'])
+pp = clf.predict_proba(df['combined'])
 df['prob_dem'] = pp[:,0]
 df['prob_other'] = pp[:,1]
 df['prob_rep'] = pp[:,2]
-df['predicted_party_all'] = log_clf.classes_[np.argmax(pp, axis = 1)]
+df['predicted_party_all'] = clf.classes_[np.argmax(pp, axis = 1)]
 
 df = df.explode('ad_id')
 
