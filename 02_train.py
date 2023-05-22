@@ -27,7 +27,7 @@ d_text = pd.read_csv(path_train_test_text, encoding='UTF-8', keep_default_na = F
 d = d.merge(d_text, on = "ad_id")
 
 # All fields
-cols = ['disclaimer', 'page_name', 'ad_creative_body', 'ad_creative_link_caption', 'ad_creative_link_description', 'ad_creative_link_title', 'aws_ocr_text', 'google_asr_text']
+cols = ['ad_creative_body', 'ad_creative_link_caption', 'ad_creative_link_description', 'ad_creative_link_title', 'aws_ocr_text', 'google_asr_text']
 d['combined'] = d[cols].apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
 
 # Remove duplicate texts

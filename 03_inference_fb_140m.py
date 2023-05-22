@@ -19,7 +19,7 @@ path_predictions = "data/facebook/party_predictions_fb_2020_140m.csv.gz"
 # Inference dataset
 df = pd.read_csv(path_inference_data, encoding='UTF-8', keep_default_na = False, dtype = 'str')
 # All fields
-cols = ['disclaimer', 'page_name', 'ad_creative_body', 'ad_creative_link_caption', 'ad_creative_link_description', 'ad_creative_link_title', 'aws_ocr_text', 'google_asr_text']
+cols = ['ad_creative_body', 'ad_creative_link_caption', 'ad_creative_link_description', 'ad_creative_link_title', 'aws_ocr_text', 'google_asr_text']
 # Combine and clean up
 df['combined'] = df[cols].apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
 df['combined'] = df['combined'].str.strip()
