@@ -61,7 +61,7 @@ The following fields are used in the classifier by concatenating them in the fol
 
 The model is a random forest classifier, with CalibratedClassifierCV wrapped around it for smoother class probabilities (i.e. so that not all probabilities are either >0.99 or <0.01).
 
-Previously (not any more, since performance is now (since using the 1.4m 2020 FB dataset) better with RF), we used logistic regression, with C=10 and solver='newton-cg' (hyperparameters determined by Jielu, likely out of date).
+Previously, we used logistic regression, with C=10 and solver='newton-cg', but random forest has proven to be a better classifier.
 
 For more information about the models, you can look at the notes in the `/notes` folder.
 
