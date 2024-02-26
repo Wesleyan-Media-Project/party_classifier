@@ -2,7 +2,7 @@
 
 Welcome! This repo is a part of the Cross-platform Election Advertising Transparency initiative ([CREATIVE](https://www.creativewmp.com/)) project. CREATIVE is a joint infrastructure project of WMP and privacy-tech-lab at Wesleyan University. CREATIVE provides cross-platform integration and standardization of political ads collected from Google and Facebook. You will also need the [datasets](https://github.com/Wesleyan-Media-Project/datasets), [data-post-production](https://github.com/Wesleyan-Media-Project/data-post-production) and [fb_2020](https://github.com/Wesleyan-Media-Project/fb_2020) repos to run the script.
 
-This repo is a part of the Final Data Classification step.
+This repo is a part of the Data Classification Step.
 ![A picture of the repo pipeline with this repo highlighted](Creative_Pipelines.png)
 
 ## Table of Contents
@@ -25,11 +25,11 @@ This repo is a multinomial party classifier that classifies ads into DEM/REP/OTH
 Each of our repos belongs to one or more of the following categories:
 
 - Data Collection
-- Data Storage & Processing
-- Preliminary Data Classification
-- Final Data Classification
+- Data Processing
+- Data Classification
+- Compiled Final Data
 
-This repo is part of the Final Data Classification section.
+This repo is part of the Data Classification section.
 
 ## Data
 
@@ -72,11 +72,11 @@ Performance on held-out test set:
 ```
 
                precision    recall  f1-score   support
- 
+
           DEM       0.86      0.91      0.89     15366
         OTHER       0.84      0.05      0.10       698
           REP       0.82      0.81      0.82      9270
- 
+
      accuracy                           0.85     25334
     macro avg       0.84      0.59      0.60     25334
  weighted avg       0.85      0.85      0.84     25334

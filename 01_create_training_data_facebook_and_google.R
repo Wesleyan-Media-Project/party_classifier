@@ -1,5 +1,5 @@
 # This file creates a training dataset
-# Notably, we only use ads with coded party_all 
+# Notably, we only use ads with coded party_all
 # IF all pd_ids by the respective page_id are the same party
 
 library(data.table)
@@ -37,8 +37,8 @@ df <- left_join(df, ent, by = "advertiser_id")
 test <- aggregate(df$party_all, by = list(df$advertiser_id), table)
 test$usable_party_all <- unlist(lapply(test$x, length)) == 1
 test <- test %>% select(-x)
-names(test)[1] <- 'advertiser_id'
-df <- left_join(df, test, by = 'advertiser_id')
+names(test)[1] <- "advertiser_id"
+df <- left_join(df, test, by = "advertiser_id")
 df$party_all_usable <- df$party_all
 df$party_all_usable[df$usable_party_all == F] <- NA
 df$party_all_usable[df$party_all_usable == "NOTCODED"] <- NA
@@ -49,6 +49,7 @@ df_g$platform <- "Google"
 #----
 
 # Inputs
+# fb_2020_140m_adid_var1.csv.gz is an output from repo fb_2020
 path_fb_140m_vars <- "../fb_2020/fb_2020_140m_adid_var1.csv.gz"
 path_wmp_ent <- "../datasets/wmp_entity_files/Facebook/2020/wmp_fb_entities_v090622.csv"
 
@@ -70,8 +71,8 @@ df$party_all[is.na(df$party_all)] <- "NOTCODED"
 test <- aggregate(df$party_all, by = list(df$page_id), table)
 test$usable_party_all <- unlist(lapply(test$x, length)) == 1
 test <- test %>% select(-x)
-names(test)[1] <- 'page_id'
-df <- left_join(df, test, by = 'page_id')
+names(test)[1] <- "page_id"
+df <- left_join(df, test, by = "page_id")
 df$party_all_usable <- df$party_all
 df$party_all_usable[df$usable_party_all == F] <- NA
 df$party_all_usable[df$party_all_usable == "NOTCODED"] <- NA
@@ -83,15 +84,17 @@ df <- bind_rows(df_f, df_g)
 
 #----
 
-# Create the train-test split 
+# Create the train-test split
 advertiser_id_with_usable_party_all <- unique(df$advertiser_id[is.na(df$party_all_usable) == F])
 set.seed(123)
-split <- sample(c('train', 'test'), length(advertiser_id_with_usable_party_all), replace = T, prob = c(0.7, 0.3))
-split <- data.frame(advertiser_id = advertiser_id_with_usable_party_all,
-                    split = split)
+split <- sample(c("train", "test"), length(advertiser_id_with_usable_party_all), replace = T, prob = c(0.7, 0.3))
+split <- data.frame(
+  advertiser_id = advertiser_id_with_usable_party_all,
+  split = split
+)
 df <- left_join(df, split, by = "advertiser_id")
 
 # Only keep ads in the train/test set
-df <- df[is.na(df$split) == F,]
+df <- df[is.na(df$split) == F, ]
 
 fwrite(df, path_training_data)

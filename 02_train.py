@@ -15,6 +15,7 @@ import random
 
 # Input
 path_train_test = "data/facebook/140m_with_page_id_based_training_data.csv.gz"
+# fb_2020_140m_adid_text_clean.csv.gz is an output from repo fb_2020
 path_train_test_text = "../fb_2020/fb_2020_140m_adid_text_clean.csv.gz"
 # Output
 path_model = 'models/party_clf.joblib'

@@ -9,7 +9,9 @@ import numpy as np
 from joblib import dump, load
 
 # Input
+# fb_2020_140m_adid_text_clean.csv.gz is an output from repo fb_2020
 path_inference_data = "../fb_2020/fb_2020_140m_adid_text_clean.csv.gz"
+# fb_2020_140m_adid_var1.csv.gz is an output from repo fb_2020
 path_inference_data_vars = "../fb_2020/fb_2020_140m_adid_var1.csv.gz"
 path_model = "models/party_clf.joblib"
 
