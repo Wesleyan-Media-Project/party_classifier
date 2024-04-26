@@ -138,12 +138,12 @@ print(metrics.classification_report(test['party_all_usable'], predicted_sm))
 
 #               precision    recall  f1-score   support
 # 
-#          DEM       0.85      0.77      0.80      1078
-#          REP       0.80      0.87      0.83      1158
+#          DEM       0.83      0.84      0.84      1078
+#          REP       0.85      0.84      0.85      1158
 # 
-#     accuracy                           0.82      2236
-#    macro avg       0.82      0.82      0.82      2236
-# weighted avg       0.82      0.82      0.82      2236
+#     accuracy                           0.84      2236
+#    macro avg       0.84      0.84      0.84      2236
+# weighted avg       0.84      0.84      0.84      2236
 
 # Save model to disk
 dump(clf, path_model, compress = 3)
