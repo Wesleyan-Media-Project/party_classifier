@@ -80,21 +80,30 @@ df$party_all_usable[df$party_all_usable == "NOTCODED"] <- NA
 df_f <- df
 df_f$platform <- "Facebook"
 
+# Make advertiser_id for FB pd_id, then combine FB and Google
+df_f$advertiser_id <- df_f$pd_id
+df_f <- df_f %>% select(-c(pd_id, page_id))
 df <- bind_rows(df_f, df_g)
 
 #----
 
 # Create the train-test split
-advertiser_id_with_usable_party_all <- unique(df$advertiser_id[is.na(df$party_all_usable) == F])
+# Usable advertisers
+df <- as.data.frame(df)
+df_usable <- df[(is.na(df$party_all_usable) == F) & (is.na(df$advertiser_id) == F),]
+# Count how many ads there are per advertiser
+df_advertiser_id_counts <- df_usable %>% group_by(advertiser_id) %>% count()
+df_advertiser_id_counts <- df_usable %>% select(advertiser_id, party_all) %>% right_join(df_advertiser_id_counts, "advertiser_id")
+
+# Create the test set
+# Sample 10 D and R advertisers who have between 500 and 1000 ads
+df_advertiser_id_counts_500_1000 <- df_advertiser_id_counts[(df_advertiser_id_counts$n > 500) & (df_advertiser_id_counts$n < 1000),]
 set.seed(123)
-split <- sample(c("train", "test"), length(advertiser_id_with_usable_party_all), replace = T, prob = c(0.7, 0.3))
-split <- data.frame(
-  advertiser_id = advertiser_id_with_usable_party_all,
-  split = split
-)
-df <- left_join(df, split, by = "advertiser_id")
+test_Dem <- sample(df_advertiser_id_counts_500_1000$advertiser_id[df_advertiser_id_counts_500_1000$party_all == "DEM"], 10)
+set.seed(123)
+test_Rep <- sample(df_advertiser_id_counts_500_1000$advertiser_id[df_advertiser_id_counts_500_1000$party_all == "REP"], 10)
 
-# Only keep ads in the train/test set
-df <- df[is.na(df$split) == F, ]
+df_usable$split <- "train"
+df_usable$split[df_usable$advertiser_id %in% c(test_Dem, test_Rep)] <- "test"
 
-fwrite(df, path_training_data)
+fwrite(df_usable, path_training_data)
