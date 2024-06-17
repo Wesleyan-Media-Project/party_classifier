@@ -29,7 +29,7 @@ d = pd.read_csv(path_train_test, encoding='UTF-8', keep_default_na = False)
 
 # Load the text data and remove the detected entities from them
 # Read in and process FB
-df_el_f = pd.read_csv("../entity_linking/facebook/data/entity_linking_results_140m.csv.gz")
+df_el_f = pd.read_csv("../entity_linking/facebook/data/entity_linking_results_140m_notext.csv.gz")
 
 # Convert list-like columns back to actual lists
 cols_to_convert = [col for col in df_el_f.columns if col.endswith('_start') or col.endswith('_end')]
