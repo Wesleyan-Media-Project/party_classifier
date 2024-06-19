@@ -1,62 +1,53 @@
-# Wesleyan Media Project -Ad-level Party Classifier
+# CREATIVE --- Ad-level Party Classifier
 
 Welcome! This repository contains scripts that train and apply a machine learning model to classify political advertisements based on their content and determine which political party (Democratic, Republican, or Other) the ads belong to.
 
-This repo is a part of the [Cross-platform Election Advertising Transparency Initiative (CREATIVE)](https://www.creativewmp.com/). CREATIVE is an academic research project that has the goal of providing the public with analysis tools for more transparency of political ads across online platforms. In particular, CREATIVE provides cross-platform integration and standardization of political ads collected from Google and Facebook. CREATIVE is a joint project of the [Wesleyan Media Project (WMP)](https://mediaproject.wesleyan.edu/) and the [privacy-tech-lab](https://privacytechlab.org/) at [Wesleyan University](https://www.wesleyan.edu).
+This repo is part of the [Cross-platform Election Advertising Transparency Initiative (CREATIVE)](https://www.creativewmp.com/). CREATIVE is an academic research project that has the goal of providing the public with analysis tools for more transparency of political ads across online platforms. In particular, CREATIVE provides cross-platform integration and standardization of political ads collected from Google and Facebook. CREATIVE is a joint project of the [Wesleyan Media Project (WMP)](https://mediaproject.wesleyan.edu/) and the [privacy-tech-lab](https://privacytechlab.org/) at [Wesleyan University](https://www.wesleyan.edu).
 
-To analyze the different dimensions of political ad transparency we have developed an analysis pipeline. The scripts in this repo are part of the Data Classification Step in our pipeline. You will also need the repo [datasets](https://github.com/Wesleyan-Media-Project/datasets), [fb_2020](https://github.com/Wesleyan-Media-Project/fb_2020) and [data-post-production](https://github.com/Wesleyan-Media-Project/data-post-production) to run the scripts in this repo.
+To analyze the different dimensions of political ad transparency we have developed an analysis pipeline. The scripts in this repo are part of the Data Classification step in our pipeline.
+
 ![A picture of the repo pipeline with this repo highlighted](Creative_Pipelines.png)
+
+To run the scripts in this repo you will also need resources from the [datasets](https://github.com/Wesleyan-Media-Project/datasets), [fb_2020](https://github.com/Wesleyan-Media-Project/fb_2020) and [data-post-production](https://github.com/Wesleyan-Media-Project/data-post-production) repos.
 
 ## Table of Contents
 
 - [1. Overview](#1-overview)
-- [2. Objective](#2-objective)
-- [3. Data](#3-data)
-- [4. Setup](#4-setup)
-  - [Training](#training)
-  - [Model](#model)
-  - [Performance](#performance)
-- [5. Thank You](#5-thank-you)
+- [2. Data](#2-data)
+- [3. Setup](#3-setup)
+  - [3.1 Training](#31-training)
+  - [3.2 Model](#32-model)
+  - [3.3 Performance](#33-performance)
+- [4. Thank You](#4-thank-you)
 
 ## 1. Overview
 
-This repo is a multinomial party classifier that classifies ads into DEM/REP/OTHER. The difference to the [other](https://github.com/Wesleyan-Media-Project/party_classifier_pdid) party classifier is that in this one, the training data consists of **individual** ads whose pd_id has `party_all` coded in the WMP entity file. By contrast, the other party classifier concatenates all ads of a pd_id into one. In situations where you need clear and specific predictions about political party affiliations for ads, it's better to use the [other](https://github.com/Wesleyan-Media-Project/party_classifier_pdid) party classifier. This is because the other party classifier operates under the assumption that all ads associated with a single pd_id will belong to the same party, leading to more consistent and potentially more accurate predictions about party affiliation when viewing the ads collectively rather than individually. The main purpose of this classifier is to get predicted probabilities for individual ads, which can then be used to express the degree to which an ad belongs to either party.
+This repo contains scripts for a multinomial ad-level party classifier that classifies ads into DEM/REP/OTHER. The difference to the [other party classifier](https://github.com/Wesleyan-Media-Project/party_classifier_pdid) is that for this classifier the training data consists of **individual** ads whose pd_id has `party_all` coded in the WMP entity file. By contrast, the other party classifier concatenates all ads of a pd_id into one. In situations where you need clear and specific predictions about political party affiliations for ads, it is better to use the [other party classifier](https://github.com/Wesleyan-Media-Project/party_classifier_pdid). This is because the other party classifier operates under the assumption that all ads associated with a single pd_id will belong to the same party, leading to more consistent and potentially more accurate predictions about party affiliation when viewing the ads collectively rather than individually. The main purpose of this ad-level classifier is to get predictions for individual ads, which can then be used to express the degree to which an ad belongs to either party.
 
-## 2. Objective
+## 2. Data
 
-Each of our repos belongs to one or more of the following categories:
+Data processed and generated by the scripts in this repository are stored as compressed CSV files (csv.gz) in the `/data` folder. The outputs include class labels (DEM/REP/OTHER) and aggregated labels at the pd_id level (advertiser_id for Google) determined by a majority vote. In case of a tie in which the classifier can't decide the party, the label defaults to OTHER. In addition to the class labels, the classifier computes probabilities that indicate the likelihood of each ad belonging to the DEM, REP, or OTHER categories. However, to obtain more accurate class probabilities, we recommend you use the [other party classifier](https://github.com/Wesleyan-Media-Project/party_classifier_pdid).
 
-- Data Collection
-- Data Processing
-- Data Classification
-- Compiled Final Data
-
-This repo is part of the Data Classification section.
-
-## 3. Data
-
-Data processed and generated by the scripts in this repository are stored as compressed CSV files (csv.gz) in the `/data` folder. The outputs include class labels (DEM/REP/OTHER) and aggregated labels at the pd_id level (advertiser_id for Google) determined by a majority vote. In case of a tie in which the classifier can't decide the party, the label defaults to OTHER. In addition to the class labels, the classifier computes probabilities that indicate the likelihood of each ad belonging to the DEM, REP, or OTHER categories. However, to obtain more accurate class probabilities, we recommend you use the [other](https://github.com/Wesleyan-Media-Project/party_classifier_pdid) party classifier.
-
-## 4. Setup
+## 3. Setup
 
 To start setting up the repo and run the scripts, first clone this repo to your local directory:
-  
-  ```bash
-  git clone https://github.com/Wesleyan-Media-Project/party_classifier.git
-  ```
+
+```bash
+git clone https://github.com/Wesleyan-Media-Project/party_classifier.git
+```
 
 Then, ensure you have the required dependencies installed.
 The scripts use both R (4.2.2) and Python (3.9.16). The packages we used are described in requirements_r.txt and requirements_py.txt. You can install the required Python packages by running:
 
-  ```bash
-  pip install -r requirements_py.txt
-  ```
+```bash
+pip install -r requirements_py.txt
+```
 
 For R, you can install the required packages by running:
 
-  ```bash
-  Rscript -e 'install.packages(readLines("requirements_r.txt"))'
-  ```
+```bash
+Rscript -e 'install.packages(readLines("requirements_r.txt"))'
+```
 
 The scripts are numbered in the order in which they should be run. For example, you should follow the order 01, 02, 03, etc according to the file names. Scripts that directly depend on one another are ordered sequentially. Scripts with the same number are alternatives, usually they are the same scripts on different data, or with minor variations. For example, `03_inference_fb_140m.py` and `03_inference_google_2020.py` are both applying the party classifier, but on different datasets.
 
@@ -68,15 +59,20 @@ For an example pipeline that trains on the 2020 Facebook dataset, and then does 
 
 Some scripts require datasets from the [datasets](https://github.com/Wesleyan-Media-Project/datasets) repo (which contains datasets that aren't created in any of the repos and intended to be used in more than one repo) and the [fb_2020](https://github.com/Wesleyan-Media-Project/fb_2020) repo (containing 2020 ad text and metadata). Those repos are assumed to be cloned into the same top-level folder as the party_classifier repo.
 
-### Training
+### 3.1 Training
 
 Training is done on the portion of the 1.4m dataset for which party_all is known, based on merging with the most recent WMP entities file (v090622) `wmp_fb_entities_v090622.csv`. Only pages for which all of their pd_ids are associated with the same party_all are used. For training, the data is split by assigning 70% of the page_ids to training, and 30% of the page_ids to test. Ergo, all ads associated with a specific page_id can only be in either training or test.
 
-The reason we split on page_id and not pd_id is because because different pd ids of the same page are always going to be similar. If we use pd id we could end up with some pd ids of the same page id ending up in the training set, and some in the test set, which would be unfair.
+The reason we split on page_id and not pd_id is because because different pd_ids of the same page are always going to be similar. If we use pd_id we could end up with some pd_ids of the same page_id ending up in the training set, and some in the test set, which would be unfair.
 
-The following fields are used in the classifier by concatenating them in the following order, separated by a single space: disclaimer, page_name, ad_creative_body, ad_creative_link_caption, ad_creative_link_description, ad_creative_link_title, ocr, asr. Prior to the train/test split, the concatenated ads are de-duplicated, so that only one version of every concatenated ad content can go into either train/test (we could potentially only de-duplicate within page_ids, but currently don't).
+The following fields are used in the classifier by concatenating them in the following order, separated by a single space:
 
-### Model
+| disclaimer | page_name | ad_creative_body | ad_creative_link_caption | ad_creative_link_description | ad_creative_link_title | ocr | asr |
+| ---------- | --------- | ---------------- | ------------------------ | ---------------------------- | ---------------------- | --- | --- |
+
+Prior to the train/test split, the concatenated ads are de-duplicated, so that only one version of every concatenated ad content can go into either train/test (we could potentially only de-duplicate within page_ids, but currently don't).
+
+### 3.2 Model
 
 The model is a random forest classifier, with CalibratedClassifierCV wrapped around it for smoother class probabilities (i.e. so that not all probabilities are either >0.99 or <0.01).
 
@@ -84,9 +80,9 @@ Previously, we used logistic regression, with C=10 and solver='newton-cg', but t
 
 For more information about the models, you can look at the notes in the `/notes` folder.
 
-### Performance
+### 3.3 Performance
 
-Here is the model performance on the held-out test set:s
+Here is the model performance on the held-out test set:
 
 ```
 
@@ -101,9 +97,9 @@ Here is the model performance on the held-out test set:s
  weighted avg       0.85      0.85      0.84     25334
 ```
 
-## 5. Thank You
+## 4. Thank You
 
-<p align="center"><strong>We would like to thank our financial supporters!</strong></p><br>
+<p align="center"><strong>We would like to thank our supporters!</strong></p><br>
 
 <p align="center">This material is based upon work supported by the National Science Foundation under Grant Numbers 2235006, 2235007, and 2235008.</p>
 
