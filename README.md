@@ -49,13 +49,13 @@ For R, you can install the required packages by running:
 Rscript -e 'install.packages(readLines("requirements_r.txt"))'
 ```
 
-The scripts are numbered in the order in which they should be run. For example, you should follow the order 01, 02, 03, etc according to the file names. Scripts that directly depend on one another are ordered sequentially. Scripts with the same number are alternatives, usually they are the same scripts on different data, or with minor variations. For example, `03_inference_fb_140m.py` and `03_inference_google_2020.py` are both applying the party classifier, but on different datasets.
+The scripts are numbered in the order in which they should be run. For example, you should follow the order 01, 02, 03, etc according to the file names. Scripts that directly depend on one another are ordered sequentially. Scripts with the same number are alternatives, usually they are the same scripts on different data, or with minor variations. For example, `03_inference_google_2022.ipynb` and `03_inference_google_2022_both_model.ipynb` are applying the party classifiers trained on different datasets. Inference scripts on 2022 political advertising datasets contain "_2022" in the filenames.  
 
 Since the outputs of each script are saved in this repo, you can also run the scripts in any order by your preference. For example, you can only run the inference script since the model files are already present in the `/models` folder.
 
 There are separate folders for Facebook and Google. Within Facebook, the code needs to be run in the order of knowledge base, training, and then inference.
 
-For an example pipeline that trains on the 2020 Facebook dataset, and then does inference on 2020 Facebook, see `pipeline.sh`. This should take about 20 minutes to run on a laptop.
+An example pipeline that trains on the 2020 Facebook dataset and then makes inference on the 2022 Facebook dataset should take about 20 minutes to run on a laptop.
 
 Some scripts require datasets from the [datasets](https://github.com/Wesleyan-Media-Project/datasets) repo (which contains datasets that aren't created in any of the repos and intended to be used in more than one repo) and the [fb_2020](https://github.com/Wesleyan-Media-Project/fb_2020) repo (containing 2020 ad text and metadata). Those repos are assumed to be cloned into the same top-level folder as the party_classifier repo.
 
@@ -74,9 +74,7 @@ Prior to the train/test split, the concatenated ads are de-duplicated, so that o
 
 ### 3.2 Model
 
-The model is a random forest classifier, with CalibratedClassifierCV wrapped around it for smoother class probabilities (i.e. so that not all probabilities are either >0.99 or <0.01).
-
-Previously, we used logistic regression, with C=10 and solver='newton-cg', but the random forest has proven to be a better classifier.
+The model is a logistic regression classifier with L2 regulation.   
 
 For more information about the models, you can look at the notes in the `/notes` folder.
 
