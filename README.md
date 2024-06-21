@@ -22,7 +22,7 @@ To run the scripts in this repo you will also need resources from the [datasets]
 
 ## 1. Overview
 
-This repo contains scripts for a multinomial ad-level party classifier that classifies ads into DEM/REP/OTHER. The difference to the [other party classifier](https://github.com/Wesleyan-Media-Project/party_classifier_pdid) is that for this classifier the training data consists of **individual** ads whose pd_id has `party_all` coded in the WMP entity file. By contrast, the other party classifier concatenates all ads of a pd_id into one. In situations where you need clear and specific predictions about political party affiliations for ads, it is better to use the [other party classifier](https://github.com/Wesleyan-Media-Project/party_classifier_pdid). This is because the other party classifier operates under the assumption that all ads associated with a single pd_id will belong to the same party, leading to more consistent and potentially more accurate predictions about party affiliation when viewing the ads collectively rather than individually. The main purpose of this ad-level classifier is to get predictions for individual ads, which can then be used to express the degree to which an ad belongs to either party.
+This repo contains scripts for a multinomial ad-level party classifier that classifies ads into DEM/REP/OTHER. The difference to the [other party classifier](https://github.com/Wesleyan-Media-Project/party_classifier_pdid) is that for this classifier the training data consists of **individual** ads whose pd_id has `party_all` coded in the [WMP entity file](https://github.com/Wesleyan-Media-Project/datasets/tree/main/wmp_entity_files) which is a list of all the unique sponsors of ads on Google and Facebook. By contrast, the other party classifier concatenates all ads of a pd_id into one. In situations where you need clear and specific predictions about political party affiliations for ads, it is better to use the [other party classifier](https://github.com/Wesleyan-Media-Project/party_classifier_pdid). This is because the other party classifier operates under the assumption that all ads associated with a single pd_id will belong to the same party, leading to more consistent and potentially more accurate predictions about party affiliation when viewing the ads collectively rather than individually. The main purpose of this ad-level classifier is to get predictions for individual ads, which can then be used to express the degree to which an ad belongs to either party.
 
 ## 2. Data
 
@@ -37,7 +37,7 @@ git clone https://github.com/Wesleyan-Media-Project/party_classifier.git
 ```
 
 Then, ensure you have the required dependencies installed.
-The scripts use both R (4.2.2) and Python (3.9.16). The packages we used are described in requirements_r.txt and requirements_py.txt. You can install the required Python packages by running:
+The scripts are tested on R 4.2, 4.3, 4.4 and Python 3.9 and 3.10. The packages we used are described in requirements_r.txt and requirements_py.txt. You can install the required Python packages by running:
 
 ```bash
 pip install -r requirements_py.txt
@@ -53,15 +53,26 @@ The scripts are numbered in the order in which they should be run. For example, 
 
 Since the outputs of each script are saved in this repo, you can also run the scripts in any order by your preference. For example, you can only run the inference script since the model files are already present in the `/models` folder.
 
-There are separate folders for Facebook and Google. Within Facebook, the code needs to be run in the order of knowledge base, training, and then inference.
-
-An example pipeline that trains on the 2020 Facebook dataset and then makes inference on the 2022 Facebook dataset should take about 20 minutes to run on a laptop.
-
-Some scripts require datasets from the [datasets](https://github.com/Wesleyan-Media-Project/datasets) repo (which contains datasets that aren't created in any of the repos and intended to be used in more than one repo) and the [fb_2020](https://github.com/Wesleyan-Media-Project/fb_2020) repo (containing 2020 ad text and metadata). Those repos are assumed to be cloned into the same top-level folder as the party_classifier repo.
-
 ### 3.1 Training
 
-Training is done on the portion of the 1.4m dataset for which party_all is known, based on merging with the most recent WMP entities file (v090622) `wmp_fb_entities_v090622.csv`. Only pages for which all of their pd_ids are associated with the same party_all are used. For training, the data is split by assigning 70% of the page_ids to training, and 30% of the page_ids to test. Ergo, all ads associated with a specific page_id can only be in either training or test.
+Note: If you do not want to train models from scratch, you can use the trained model we provide [here](https://github.com/Wesleyan-Media-Project/party_classifier/tree/main/models).
+
+To run this repo, you first need to train a classification model. We have two training scripts that use two different training data: 
+
+1. Training that is done using the portion of the Facebook 2020 dataset for which party_all is known, based on merging with the most recent WMP entities file (v090622) `wmp_fb_entities_v090622.csv`. You need the following files for this:
+   - fb_2020/fb_2020_140m_adid_text_clean.csv.gz (PROVIDE FIGSHARE LINK ONCE READY)
+   - fb_2020/fb_2020_140m_adid_var1.csv.gz (PROVIDE FIGSHARE LINK ONCE READY)
+   - [datasets/wmp_entity_files/Facebook/2020/wmp_fb_entities_v090622.csv](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Facebook/2020/wmp_fb_entities_v090622.csv)
+
+2. Training that is done using the portion of the Facebook AND Google 2020 dataset for which party_all is known, based on merging with the most recent WMP entities file (v090622) `wmp_fb_entities_v090622.csv`. You need the following files for this:
+   - fb_2020/fb_2020_140m_adid_text_clean.csv.gz (PROVIDE FIGSHARE LINK ONCE READY)
+   - fb_2020/fb_2020_140m_adid_var1.csv.gz (PROVIDE FIGSHARE LINK ONCE READY)
+   - google_2020/google_2020_adid_var1.csv.gz (PROVIDE FIGSHARE LINK ONCE READY)
+   - google_2020/google_2020_adid_text_clean.csv.gz (PROVIDE FIGSHARE LINK ONCE READY)
+   - [datasets/wmp_entity_files/Google/2020/wmp_google_entities_v040521.dta](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Google/2020/wmp_google_entities_v040521.dta)
+   - [datasets/wmp_entity_files/Facebook/2020/wmp_fb_entities_v090622.csv](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Facebook/2020/wmp_fb_entities_v090622.csv)
+
+For our training data, only pages for which all of their pd_ids are associated with the same party_all are used. For training, the data is split by assigning 70% of the page_ids to training, and 30% of the page_ids to test. Ergo, all ads associated with a specific page_id can only be in either training or test.
 
 The reason we split on page_id and not pd_id is because because different pd_ids of the same page are always going to be similar. If we use pd_id we could end up with some pd_ids of the same page_id ending up in the training set, and some in the test set, which would be unfair.
 
@@ -74,9 +85,9 @@ Prior to the train/test split, the concatenated ads are de-duplicated, so that o
 
 ### 3.2 Model
 
-The model is a logistic regression classifier with L2 regulation.   
+We use two versions of logistic regression classifier: one with L2 regulation and one without. We found that regulation might provide more accurate results.   
 
-For more information about the models, you can look at the notes in the `/notes` folder.
+You can find the trained models we provide [here](https://github.com/Wesleyan-Media-Project/party_classifier/tree/main/models). For more information about the models, you can look at the notes in the `/notes` folder.
 
 ### 3.3 Performance
 
@@ -94,6 +105,10 @@ Here is the model performance on the held-out test set:
     macro avg       0.84      0.59      0.60     25334
  weighted avg       0.85      0.85      0.84     25334
 ```
+
+### 3.4 Inference
+
+Once you have your model ready, you can run the inference scripts. All the inference scripts are named starting with 03_. For Facebook 2022 inference, you will need `fb_2022_adid_text.csv.gz` (ADD FIGSHARE LINK ONCE READY) and `fb_2022_adid_var1.csv.gz` (ADD FIGSHARE LINK ONCE READY). For Google 2022 inference, you need `g2022_adid_01062021_11082022_text.csv.gz` (ADD FIGSHARE LINK ONCE READY).
 
 ## 4. Thank You
 
