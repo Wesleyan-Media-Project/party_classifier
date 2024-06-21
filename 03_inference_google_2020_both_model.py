@@ -1,7 +1,6 @@
 import sklearn.model_selection as ms
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn import metrics
 from sklearn.feature_extraction.text import CountVectorizer
