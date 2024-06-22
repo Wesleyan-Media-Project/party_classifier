@@ -8,8 +8,6 @@ To analyze the different dimensions of political ad transparency we have develop
 
 ![A picture of the repo pipeline with this repo highlighted](Creative_Pipelines.png)
 
-To run the scripts in this repo you will also need resources from the [datasets](https://github.com/Wesleyan-Media-Project/datasets), [fb_2020](https://github.com/Wesleyan-Media-Project/fb_2020) and [data-post-production](https://github.com/Wesleyan-Media-Project/data-post-production) repos.
-
 ## Table of Contents
 
 - [1. Overview](#1-overview)
