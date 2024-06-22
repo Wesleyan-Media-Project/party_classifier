@@ -49,11 +49,11 @@ Rscript -e 'install.packages(readLines("requirements_r.txt"))'
 
 The scripts are numbered in the order in which they should be run. For example, you should follow the order 01, 02, 03, etc according to the file names. Scripts that directly depend on one another are ordered sequentially. Scripts with the same number are alternatives, usually they are the same scripts on different data, or with minor variations. For example, `03_inference_google_2022.ipynb` and `03_inference_google_2022_both_model.ipynb` are applying the party classifiers trained on different datasets. Inference scripts on 2022 political advertising datasets contain "_2022" in the filenames.  
 
-Since the outputs of each script are saved in this repo, you can also run the scripts in any order by your preference. For example, you can only run the inference script since the model files are already present in the `/models` folder.
+If you want to use the trained model we provide, you can also only run the inference script since the model files are already present in the `/models` folder.
 
 ### 3.1 Training
 
-Note: If you do not want to train models from scratch, you can use the trained model we provide [here](https://github.com/Wesleyan-Media-Project/party_classifier/tree/main/models).
+Note: If you do not want to train models from scratch, you can use the trained model we provide [here](https://github.com/Wesleyan-Media-Project/party_classifier/tree/main/models), and skip to 3.4.
 
 To run this repo, you first need to train a classification model. We have two training scripts that use two different training data: 
 
