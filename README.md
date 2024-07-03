@@ -59,13 +59,13 @@ To run this repo, you first need to train a classification model. We have two tr
 
 1. Training that is done using the portion of the Facebook 2020 dataset for which party_all is known, based on merging with the most recent WMP entities file (v090622) `wmp_fb_entities_v090622.csv`. You need the following files for this:
 
-   - fb_2020/fb_2020_140m_adid_text_clean.csv.gz (PROVIDE FIGSHARE LINK ONCE READY)
-   - fb_2020/fb_2020_140m_adid_var1.csv.gz (PROVIDE FIGSHARE LINK ONCE READY)
+   - [fb_2020/fb_2020_140m_adid_text_clean.csv.gz](https://figshare.wesleyan.edu/account/articles/26093257)
+   - [fb_2020/fb_2020_140m_adid_var1.csv.gz](https://figshare.wesleyan.edu/account/articles/26093254)
    - [datasets/wmp_entity_files/Facebook/2020/wmp_fb_entities_v090622.csv](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Facebook/2020/wmp_fb_entities_v090622.csv)
 
 2. Training that is done using the portion of the Facebook AND Google 2020 dataset for which party_all is known, based on merging with the most recent WMP entities file (v090622) `wmp_fb_entities_v090622.csv`. You need the following files for this:
-   - fb_2020/fb_2020_140m_adid_text_clean.csv.gz (PROVIDE FIGSHARE LINK ONCE READY)
-   - fb_2020/fb_2020_140m_adid_var1.csv.gz (PROVIDE FIGSHARE LINK ONCE READY)
+   - [fb_2020/fb_2020_140m_adid_text_clean.csv.gz](https://figshare.wesleyan.edu/account/articles/26093257)
+   - [fb_2020/fb_2020_140m_adid_var1.csv.gz](https://figshare.wesleyan.edu/account/articles/26093254)
    - google_2020/google_2020_adid_var1.csv.gz (PROVIDE FIGSHARE LINK ONCE READY)
    - google_2020/google_2020_adid_text_clean.csv.gz (PROVIDE FIGSHARE LINK ONCE READY)
    - [datasets/wmp_entity_files/Google/2020/wmp_google_entities_v040521.dta](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Google/2020/wmp_google_entities_v040521.dta)
@@ -107,7 +107,8 @@ Here is the model performance on the held-out test set:
 
 ### 3.4 Inference
 
-Once you have your model ready, you can run the inference scripts. All the inference scripts are named starting with 03\_. For Facebook 2022 inference, you will need `fb_2022_adid_text.csv.gz` (ADD FIGSHARE LINK ONCE READY) and `fb_2022_adid_var1.csv.gz` (ADD FIGSHARE LINK ONCE READY). For Google 2022 inference, you need `g2022_adid_01062021_11082022_text.csv.gz` (ADD FIGSHARE LINK ONCE READY).
+Once you have your model ready, you can run the inference scripts. All the inference scripts are named starting with 03\_. For Facebook 2022 inference, you will need [fb_2022_adid_text.csv.gz](https://figshare.wesleyan.edu/account/articles/26124295)  and [fb_2022_adid_var1.csv.gz](https://figshare.wesleyan.edu/account/articles/26124340
+). For Google 2022 inference, you need [g2022_adid_01062021_11082022_text.csv.gz](https://figshare.wesleyan.edu/account/articles/26124343).
 
 In this repository, the 2020 inference scripts are written in Python with the file name ending with `.py`. To run the 2020 inference scripts, you can use the following command that calls `python` to execute the script. For example, to run the Google 2020 inference script `03_inference_google_2020.py`, you can use the following command:
 
