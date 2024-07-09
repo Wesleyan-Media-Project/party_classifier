@@ -14,7 +14,7 @@ path_training_data <- "data/2020_fb_and_google_with_page_id_based_training_data.
 # Google
 
 # Inputs
-path_google_2020_vars <- "../google_2020/google_2020_adid_var1.csv.gz"
+path_google_2020_vars <- "../datasets/google/google_2020_adid_var1.csv.gz"
 path_wmp_ent <- "../datasets/wmp_entity_files/Google/2020/wmp_google_entities_v040521.dta"
 
 # Ad id, pd_id, page_id

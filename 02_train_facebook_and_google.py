@@ -19,7 +19,7 @@ import ast
 path_train_test = "data/2020_fb_and_google_with_page_id_based_training_data.csv.gz"
 # fb_2020_140m_adid_text_clean.csv.gz is an output from repo fb_2020
 path_train_test_text_f = "../fb_2020/fb_2020_140m_adid_text_clean.csv.gz"
-path_train_test_text_g = "../google_2020/google_2020_adid_text_clean.csv.gz"
+path_train_test_text_g = "../datasets/google/google_2020_adid_text_clean.csv.gz"
 # Output
 path_model = 'models/party_clf_facebook_and_google_2020.joblib'
 path_model_smooth = 'models/party_clf_facebook_and_google_2020_smooth.joblib'

@@ -10,8 +10,8 @@ import numpy as np
 from joblib import dump, load
 
 # Input
-path_inference_data = "../google_2020/google_2020_adid_text_clean.csv.gz"
-path_inference_data_vars = "../google_2020/google_2020_adid_var1.csv.gz"
+path_inference_data = "../datasets/google/google_2020_adid_text_clean.csv.gz"
+path_inference_data_vars = "../datasets/google/google_2020_adid_var1.csv.gz"
 path_model = "models/party_clf_facebook_and_google_2020.joblib"
 path_model_smooth = "models/party_clf_facebook_and_google_2020_smooth.joblib"
 
