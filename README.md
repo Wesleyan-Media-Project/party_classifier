@@ -6,7 +6,7 @@ This repo is part of the [Cross-platform Election Advertising Transparency Initi
 
 To analyze the different dimensions of political ad transparency we have developed an analysis pipeline. The scripts in this repo are part of the Data Classification step in our pipeline.
 
-![A picture of the repo pipeline with this repo highlighted](Creative_Pipelines.png)
+![A picture of the repo pipeline with this repo highlightsed](Creative_Pipelines.png)
 
 ## Table of Contents
 
@@ -96,7 +96,7 @@ weighted avg       0.88      0.88      0.88      6161
 ### 3.4 Inference
 Please note that to access the files stored on Figshare, you will need to fill out a brief form and then will immediately get data access.
 
-Once you have your model ready, you can run the inference scripts. All the inference scripts are named starting with 03\_. For Facebook 2022 inference, you will need [fb_2022_adid_text.csv.gz](https://www.creativewmp.com/data-access/) and [fb_2022_adid_var1.csv.gz](https://www.creativewmp.com/data-access/). For Google 2022 inference, you need [g2022_adid_01062021_11082022_text.csv.gz](https://www.creativewmp.com/data-access/).
+Once you have your model ready, you can run the inference scripts. All the inference scripts are named starting with 03\_. For Facebook 2022 inference, you will need [fb_2022_adid_text.csv.gz](https://www.creativewmp.com/data-access/) and [fb_2022_adid_var1.csv.gz](https://www.creativewmp.com/data-access/). For Google 2022 inference, you will need [`g2022_adid_text.csv.gz`](https://www.creativewmp.com/data-access/) and [`g2022_adid_var1.csv.gz`](https://www.creativewmp.com/data-access/).
 
 In this repository, the 2020 train and inference scripts are written in Python with `2020` in file names in the 2020 directory. 
 
