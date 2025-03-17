@@ -1,7 +1,9 @@
 #!/bin/bash
 
-# Training on FB 2020
-Rscript --no-environ --no-save 01_create_training_data.R
-python 02_train.py
-# Inference on FB 2020
-python 03_inference_fb_140m.py
+# Training on Meta and Google 2022
+python code/01_prepare_train.py
+python code/02_train.py
+# Inference on FB 2022
+python code/03_inference_fb_2022.py
+# Inference on Google 2022
+python code/03_inference_google_2022.py
