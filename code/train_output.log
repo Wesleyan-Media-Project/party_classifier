@@ -1,0 +1,36 @@
+Training Data Shape:  (55558, 4)
+party_all
+DEM      32670
+REP      21358
+OTHER     1530
+Name: count, dtype: int64
+Testing Data Shape:  (6161, 4)
+party_all
+DEM      3953
+REP      2066
+OTHER     142
+Name: count, dtype: int64
+Regular Logistic Regression:
+Classes:  ['DEM' 'OTHER' 'REP']
+              precision    recall  f1-score   support
+
+         DEM       0.80      0.96      0.88      3953
+       OTHER       0.00      0.00      0.00       142
+         REP       0.89      0.61      0.72      2066
+
+    accuracy                           0.82      6161
+   macro avg       0.56      0.52      0.53      6161
+weighted avg       0.81      0.82      0.80      6161
+
+Smoothed Logistic Regression:
+Classes:  ['DEM' 'OTHER' 'REP']
+              precision    recall  f1-score   support
+
+         DEM       0.89      0.94      0.92      3953
+       OTHER       0.66      0.13      0.22       142
+         REP       0.86      0.82      0.84      2066
+
+    accuracy                           0.88      6161
+   macro avg       0.80      0.63      0.66      6161
+weighted avg       0.88      0.88      0.88      6161
+

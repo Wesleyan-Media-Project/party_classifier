@@ -16,11 +16,11 @@ if __name__ == '__main__':
     
 
     # Input
-    path_train_test = "data/party_train_prepared.csv.gz"
+    path_train_test = "../data/party_train_prepared.csv.gz"
 
     # Output
-    path_model = "models/party_clf_facebook_and_google_2022.joblib"
-    path_model_smooth = "models/party_clf_facebook_and_google_2022_smooth.joblib"
+    path_model = "../models/party_clf_facebook_and_google_2022.joblib"
+    path_model_smooth = "../models/party_clf_facebook_and_google_2022_smooth.joblib"
 
     # Read in the data
     df = pd.read_csv(path_train_test, encoding='UTF-8')

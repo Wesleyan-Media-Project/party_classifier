@@ -35,19 +35,13 @@ git clone https://github.com/Wesleyan-Media-Project/party_classifier.git
 ```
 
 Then, ensure you have the required dependencies installed.
-The scripts are tested on R 4.2, 4.3, 4.4 and Python 3.9 and 3.10. The packages we used are described in requirements_r.txt and requirements_py.txt. You can install the required Python packages by running:
+The scripts are tested on Python 3.9, 3.10 and 3.11. The packages we used are described in requirements_py.txt. You can install the required Python packages by running:
 
 ```bash
 pip install -r requirements_py.txt
 ```
 
-For R, you can install the required packages by running:
-
-```bash
-Rscript -e 'install.packages(readLines("requirements_r.txt"))'
-```
-
-The scripts are numbered in the order in which they should be run. For example, you should follow the order 01, 02, 03, etc according to the file names. Scripts that directly depend on one another are ordered sequentially. Scripts with the same number are alternatives, usually they are the same scripts on different data, or with minor variations. For example, `03_inference_google_2022.ipynb` and `03_inference_google_2022_both_model.ipynb` are applying the party classifiers trained on different datasets. Inference scripts on 2022 political advertising datasets contain "\_2022" in the filenames.
+The scripts in the `code` directory are numbered in the order in which they should be run. For example, you should follow the order 01, 02, 03, etc according to the file names. Scripts that directly depend on one another are ordered sequentially. Scripts with the same number are alternatives, usually they are the same scripts on different data, or with minor variations. For example, `03_inference_google_2022.py` and `03_inference_fb_2022.py` are applying the party classifiers trained on different datasets. Inference scripts on 2022 political advertising datasets contain "\_2022" in the filenames.
 
 If you want to use the trained model we provide, you can also only run the inference script since the model files are already present in the `/models` folder.
 
@@ -57,36 +51,28 @@ Note: If you do not want to train models from scratch, you can use the trained m
 
 To run this repo, you first need to train a classification model. We have two training scripts that use two different training data:
 
-1. Training that is done using the portion of the Facebook 2020 dataset for which party_all is known, based on merging with the most recent WMP entities file (v090622) `wmp_fb_entities_v090622.csv`. You need the following files for this:
+1. Training that is done using the portions of Meta and Google 2022 datasets for which the sponsors' party leanings or affiliations are known, based on merging with the most recent WMP entities file `wmpentity_2022_012125_mergedFECids.dta` (for Meta, version 2025-01-21) and `2022_google_entities_20240303_woldidstomerge.csv`(for Google, version 2024-03-03). You need the following files:
 
-   - fb_2020/fb_2020_140m_adid_text_clean.csv.gz. Note that this file will be made available when it is ready.
-   - fb_2020/fb_2020_140m_adid_var1.csv.gz. Note that this file will be made available when it is ready.
-   - [datasets/wmp_entity_files/Facebook/2020/wmp_fb_entities_v090622.csv](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Facebook/2020/wmp_fb_entities_v090622.csv)
+    - Meta 2022 entity file: [`wmpentity_2022_012125_mergedFECids.dta`](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Facebook/wmpentity_2022_012125_mergedFECids.dta) 
+    - Google 2022 entity file: [`2022_google_entities_20240303_woldidstomerge.csv`](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Google/2022_google_entities_20240303_woldidstomerge.csv)
 
-2. Training that is done using the portion of the Facebook AND Google 2020 dataset for which party_all is known, based on merging with the most recent WMP entities file (v090622) `wmp_fb_entities_v090622.csv`. You need the following files for this:
-   - fb_2020/fb_2020_140m_adid_text_clean.csv.gz. Note that this file will be made available when it is ready.
-   - fb_2020/fb_2020_140m_adid_var1.csv.gz. Note that this file will be made available when it is ready.
-   - [datasets/google/google_2020_adid_var1.csv.gz](https://github.com/Wesleyan-Media-Project/datasets/blob/main/google/google_2020_adid_var1.csv.gz)
-   - [datasets/google/google_2020_adid_text_clean.csv.gz](https://github.com/Wesleyan-Media-Project/datasets/blob/main/google/google_2020_adid_text_clean.csv.gz)
-   - [datasets/wmp_entity_files/Google/2020/wmp_google_entities_v040521.dta](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Google/2020/wmp_google_entities_v040521.dta)
-   - [datasets/wmp_entity_files/Facebook/2020/wmp_fb_entities_v090622.csv](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Facebook/2020/wmp_fb_entities_v090622.csv)
+Meta and Google 2022 ad datasets: 
+    - Google 2022: [`g2022_adid_text.csv.gz`](https://www.creativewmp.com/data-access/) and [`g2022_adid_var1.csv.gz`](https://www.creativewmp.com/data-access/)
+    - Facebook 2022: [`fb_2022_adid_text.csv.gz`](https://www.creativewmp.com/data-access/) and [`fb_2022_adid_var1.csv.gz`](https://www.creativewmp.com/data-access/)
 
-For our training data, only pages for which all of their pd_ids are associated with the same party_all are used. For training, the data is split by assigning 70% of the page_ids to training, and 30% of the page_ids to test. Ergo, all ads associated with a specific page_id can only be in either training or test.
-
-The reason we split on page_id and not pd_id is because because different pd_ids of the same page are always going to be similar. If we use pd_id we could end up with some pd_ids of the same page_id ending up in the training set, and some in the test set, which would be unfair.
+For our training data, all ads associated with a specific sponsor can only be in either training or test set. Prior to the train/test split, the concatenated ads are de-duplicated, so that only one version of every concatenated ad content can go into either train/test (we could potentially only de-duplicate within page_ids, but currently don't).
 
 The following fields are used in the classifier by concatenating them in the following order, separated by a single space:
 
 | disclaimer | page_name | ad_creative_body | ad_creative_link_caption | ad_creative_link_description | ad_creative_link_title | ocr | asr |
 | ---------- | --------- | ---------------- | ------------------------ | ---------------------------- | ---------------------- | --- | --- |
 
-Prior to the train/test split, the concatenated ads are de-duplicated, so that only one version of every concatenated ad content can go into either train/test (we could potentially only de-duplicate within page_ids, but currently don't).
 
 ### 3.2 Model
 
-We use two versions of logistic regression classifier: one with L2 regulation and one without. We found that regulation might provide more accurate results.
+We use two versions of logistic regression classifier with varying levels of regularization strength. We found that stronger regularization provides more accurate results.
 
-You can find the trained models we provide [here](https://github.com/Wesleyan-Media-Project/party_classifier/tree/main/models). For more information about the models, you can look at the notes in the `/notes` folder.
+You can find the trained models we provide [here](https://github.com/Wesleyan-Media-Project/party_classifier/tree/main/models). 
 
 ### 3.3 Performance
 
@@ -96,13 +82,14 @@ Here is the model performance on the held-out test set:
 
                precision    recall  f1-score   support
 
-          DEM       0.86      0.91      0.89     15366
-        OTHER       0.84      0.05      0.10       698
-          REP       0.82      0.81      0.82      9270
+         DEM       0.89      0.94      0.92      3953
+       OTHER       0.66      0.13      0.22       142
+         REP       0.86      0.82      0.84      2066
 
-     accuracy                           0.85     25334
-    macro avg       0.84      0.59      0.60     25334
- weighted avg       0.85      0.85      0.84     25334
+    accuracy                           0.88      6161
+   macro avg       0.80      0.63      0.66      6161
+weighted avg       0.88      0.88      0.88      6161
+
 ```
 
 ### 3.4 Inference
@@ -110,22 +97,7 @@ Please note that to access the files stored on Figshare, you will need to fill o
 
 Once you have your model ready, you can run the inference scripts. All the inference scripts are named starting with 03\_. For Facebook 2022 inference, you will need [fb_2022_adid_text.csv.gz](https://www.creativewmp.com/data-access/) and [fb_2022_adid_var1.csv.gz](https://www.creativewmp.com/data-access/). For Google 2022 inference, you need [g2022_adid_01062021_11082022_text.csv.gz](https://www.creativewmp.com/data-access/).
 
-In this repository, the 2020 inference scripts are written in Python with the file name ending with `.py`. To run the 2020 inference scripts, you can use the following command that calls `python` to execute the script. For example, to run the Google 2020 inference script `03_inference_google_2020.py`, you can use the following command:
-
-```bash
-python3 03_inference_google_2020.py
-```
-
-On the other hand, the 2022 inference scripts are written in Jupyter Notebook with the file name ending with `.ipynb`. To run the 2022 inference scripts, you can open the Jupyter Notebook interface by type the following in your terminal:
-
-```bash
-jupyter notebook
-```
-
-After you open the Jupyter Notebook interface, you can navigate to the folder where you have cloned the repo and open the script you want to run.
-
-Then, click on the first code cell to select it.
-Run each cell sequentially by clicking the Run button or pressing Shift + Enter.
+In this repository, the 2020 train and inference scripts are written in Python with `2020` in file names in the 2020 directory. 
 
 ## 4. Thank You
 

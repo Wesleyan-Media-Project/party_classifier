@@ -10,14 +10,15 @@ from joblib import dump, load
 from tqdm import tqdm
 
 # Input
+# Available to download on WMP figshare
 path_inference_data = "g2022_adid_text.csv.gz"
 path_inference_data_vars = "g2022_adid_var1.csv.gz"
 # Load the better performing model
-# path_model = "models/party_clf_facebook_and_google_2022.joblib"
-path_model_smooth = "models/party_clf_facebook_and_google_2022_smooth.joblib"
+# path_model = "../models/party_clf_facebook_and_google_2022.joblib"
+path_model_smooth = "../models/party_clf_facebook_and_google_2022_smooth.joblib"
 
 # Output
-path_predictions = "data/party_predictions_google_2022.csv.gz"
+path_predictions = "../data/party_predictions_google_2022.csv.gz"
 
 # Inference dataset
 df = pd.read_csv(path_inference_data, encoding='UTF-8', keep_default_na = False, dtype = 'str')

@@ -9,14 +9,15 @@ import numpy as np
 from joblib import dump, load
 
 # Input
+# Available to download on WMP figshare
 path_inference_data = "fb_2022_adid_text.csv.gz"
 path_inference_data_vars = "fb_2022_adid_var1.csv.gz"
 # Load the best performing model - smoothed logistic regression
-# path_model = "models/party_clf_facebook_and_google_2022.joblib"
-path_model_smooth = "models/party_clf_facebook_and_google_2022_smooth.joblib"
+# path_model = "../models/party_clf_facebook_and_google_2022.joblib"
+path_model_smooth = "../models/party_clf_facebook_and_google_2022_smooth.joblib"
 
 # Output
-path_predictions = "data/party_predictions_fb_2022.csv.gz"
+path_predictions = "../data/party_predictions_fb_2022.csv.gz"
 
 # Inference dataset
 df = pd.read_csv(path_inference_data, encoding='UTF-8', keep_default_na = False, dtype = 'str')

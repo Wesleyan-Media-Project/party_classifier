@@ -6,17 +6,21 @@ if __name__ == '__main__':
 
     ########## Load data ##################
     # Facebook 2022 paths
+    # Output of repo data-post-production, datasets available to download from WMP figshare
     path_input_f22 = "fb_2022_adid_var1.csv.gz"
     text_f22 = "fb_2022_adid_text.csv.gz"
+    # Meta 2022 entity file, available in "datasets" repo
     f22_ent = "wmpentity_2022_012125_mergedFECids.dta"
 
     # Google 2022 paths
+    # Output of repo data-post-production, datasets available to download from WMP figshare
     path_input_g22 = "g2022_adid_var1.csv.gz"
     text_g22 = "g2022_adid_text.csv.gz"
+    # Google 2022 entity file, available in "datasets" repo
     g22_ent = "2022_google_entities_20240303_woldidstomerge.csv"
 
     # Output data path
-    path_output_data = "data/party_train_prepared.csv.gz"
+    path_output_data = "../data/party_train_prepared.csv.gz"
 
 
     ################ Training data from Meta 2022 ##############
