@@ -55,10 +55,8 @@ To run this repo, you first need to train a classification model. We have two tr
 
     - Meta 2022 entity file: [`wmpentity_2022_012125_mergedFECids.dta`](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Facebook/wmpentity_2022_012125_mergedFECids.dta) 
     - Google 2022 entity file: [`2022_google_entities_20240303_woldidstomerge.csv`](https://github.com/Wesleyan-Media-Project/datasets/blob/main/wmp_entity_files/Google/2022_google_entities_20240303_woldidstomerge.csv)
-
-Meta and Google 2022 ad datasets: 
-    - Google 2022: [`g2022_adid_text.csv.gz`](https://www.creativewmp.com/data-access/) and [`g2022_adid_var1.csv.gz`](https://www.creativewmp.com/data-access/)
-    - Facebook 2022: [`fb_2022_adid_text.csv.gz`](https://www.creativewmp.com/data-access/) and [`fb_2022_adid_var1.csv.gz`](https://www.creativewmp.com/data-access/)
+    + Google 2022 general election ad datasets: [`g2022_adid_text.csv.gz`](https://www.creativewmp.com/data-access/) and [`g2022_adid_var1.csv.gz`](https://www.creativewmp.com/data-access/)
+    - Facebook 2022 general election ad datasets: [`fb_2022_adid_text.csv.gz`](https://www.creativewmp.com/data-access/) and [`fb_2022_adid_var1.csv.gz`](https://www.creativewmp.com/data-access/)
 
 For our training data, all ads associated with a specific sponsor can only be in either training or test set. Prior to the train/test split, the concatenated ads are de-duplicated, so that only one version of every concatenated ad content can go into either train/test (we could potentially only de-duplicate within page_ids, but currently don't).
 
